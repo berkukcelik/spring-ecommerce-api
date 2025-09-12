@@ -1,15 +1,17 @@
 package com.example.ecommerceapi.entities;
 
-
+import com.example.ecommerceapi.entities.Order;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 // JPA - JakartaEE standard API for object relational mapping
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.Order;
+
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -43,6 +45,10 @@ public class User {
     @OneToMany(mappedBy = "user" , cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     @JsonIgnore
     private List<Order> orders = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @JsonIgnore
+    private Set<Adress> adresses = new HashSet<>();
 
     @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     // column olarak eklemek ve foreign key vermek icin

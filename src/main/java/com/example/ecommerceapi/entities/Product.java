@@ -36,13 +36,17 @@ public class Product {
     @ManyToMany(mappedBy = "product" )
     private Set<Category> categories;
 
+    @Column(name="quantity")
+    private Integer quantity;
 
-    public Product(BigDecimal price , String productName , String productDescription , Shop shopId) {
+    public Product(BigDecimal price , String productName , String productDescription , Shop shopId, Set<Category> categories, Integer quantity) {
         this.price = price;
         this.productName = productName;
         this.productDescription = productDescription;
         this.shopId = shopId ;
         this.createdAt = LocalDateTime.now();
+        this.quantity = quantity;
+        this.categories = categories;
     }
     public Product() {}
 
@@ -80,7 +84,8 @@ public class Product {
     public void setProductDescription(String productDescription) {
         this.productDescription = productDescription;
     }
-    public Shop getShopId{
+
+    public Shop getShopId() {
         return shopId;
     }
     public void setShopId(Shop shopId) {
