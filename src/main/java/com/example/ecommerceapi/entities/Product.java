@@ -103,4 +103,11 @@ public class Product {
     public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
+    public  Integer getQuantity() {
+        return quantity;
+    }
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
 }

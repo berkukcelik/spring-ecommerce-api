@@ -36,7 +36,9 @@ public class SecurityConfig {
 
                 // permit all ile auth endpointine izin verdik kalan requestler authenticated olmak zorunda
                 .authorizeHttpRequests(auth->auth
-                        .requestMatchers("/api/auth/**" , "api/shop/**").permitAll()
+                        // test icin diger endpointlere permitall dedim
+                        .requestMatchers("/api/auth/**","/api/shop/**",
+                                "/api/product/**","/api/category/**").permitAll()
                         .anyRequest().authenticated());
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

@@ -146,6 +146,12 @@ public class User implements UserDetails {
         this.role = role;
     }
 
+    public Set<Adress> getAdresses() {
+        return adresses;
+    }
+    public void setAdresses(Set<Adress> adresses) {
+        this.adresses = adresses;
+    }
 
 
 

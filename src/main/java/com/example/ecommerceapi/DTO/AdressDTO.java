@@ -1,62 +1,25 @@
-package com.example.ecommerceapi.entities;
+package com.example.ecommerceapi.DTO;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
-@Entity
-@Table(name="adress")
-public class Adress {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
-    private Long id;
-
-    @ManyToOne
-    @JoinColumn(name="user_id" , referencedColumnName = "id")
-    @JsonIgnore
-    private User userId;
-
-
-    @Column(name="adress_title",nullable = false)
+public class AdressDTO {
+    @NotBlank
     private String adressTitle;
-
-    @Column(name="city" , nullable = false)
+    @NotBlank
     private String city;
-
-    @Column(name="town",nullable = false)
+    @NotBlank
     private String town;
-
-    @Column(name="street")
+    @NotBlank
     private String street;
-
-
-    @Column(name="adress_detail",nullable = false)
+    @NotBlank
     private String adressDetail;
-
-    public Adress(
-            String adressTitle, String city, String town, String street, String adressDetail
-    ) {
+    public AdressDTO(String adressTitle, String city, String town, String street, String adressDetail) {
         this.adressTitle = adressTitle;
         this.city = city;
         this.town = town;
         this.street = street;
         this.adressDetail = adressDetail;
 
-    }
-    public Adress() {}
-
-    // getters setters
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public User getUserId() {
-        return userId;
-    }
-    public void setUserId(User userId) {
-        this.userId = userId;
     }
     public String getAdressTitle() {
         return adressTitle;
@@ -88,10 +51,5 @@ public class Adress {
     public void setAdressDetail(String adressDetail) {
         this.adressDetail = adressDetail;
     }
-
-
-
-
-
 
 }

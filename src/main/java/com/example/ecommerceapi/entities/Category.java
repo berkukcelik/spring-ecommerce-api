@@ -1,5 +1,6 @@
 package com.example.ecommerceapi.entities;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -15,7 +16,7 @@ public class Category {
     @Column(name="id")
     private Long id;
 
-    @Column(name="category_name")
+    @Column(name="category_name",nullable=false)
     private String categoryName;
 
     @ManyToMany
@@ -26,13 +27,22 @@ public class Category {
     )
     private List<Product> products;
 
+    @Column(name="created_at")
+    private LocalDateTime createdAt;
+    @Column(name="updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(name="category_tags")
     private Set<String> tags;
 
-    public Category() {
+    public Category(String categoryName , Set<String> tags) {
         products = new ArrayList<Product>();
-        tags = new HashSet<String>();
+        this.tags = tags ;
+        this.categoryName = categoryName;
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
-
+    public Category() {}
     //getters setters
     public Long getId() {
         return id;
@@ -59,6 +69,17 @@ public class Category {
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
-
+    public  LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+    public  LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
 }
