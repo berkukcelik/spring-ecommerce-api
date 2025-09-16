@@ -10,10 +10,10 @@ import java.util.List;
 public class Shop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="shop_id")
+    @Column(name="id")
     private Long id;
 
-    @OneToMany(mappedBy = "shop" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "shopId" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     private List<Product> products ;
 
     @Column(name="created_at")

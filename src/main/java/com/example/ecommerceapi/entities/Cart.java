@@ -15,12 +15,12 @@ public class Cart {
     @Column(name="id")
     private Long id;
 
-    @OneToMany(mappedBy = "cart" , fetch = FetchType.EAGER , cascade = CascadeType.ALL)
-    // one to many de table'a eklemiyoruz
+    @OneToMany(mappedBy = "cartId" , fetch = FetchType.EAGER , cascade = CascadeType.ALL)
+    // sonsuz döngü olmaması icin
     @JsonIgnore
-    private List<CartItem> items ;
+    private List<CartItem> cartItems;
 
-    @OneToOne(mappedBy = "cart")
+    @OneToOne
     @JoinColumn(referencedColumnName = "id" , name = "user_id",nullable = false)
     private User userId;
 
@@ -30,8 +30,11 @@ public class Cart {
     @Column(name="updated_at")
     private LocalDateTime updatedAt;
 
+    @OneToOne(fetch = FetchType.LAZY,mappedBy = "cartId")
+    private Order order;
+
     public Cart() {
-        items = new ArrayList<>();
+        cartItems = new ArrayList<>();
     }
 
     // getters setters metotlar
@@ -55,10 +58,10 @@ public class Cart {
         this.cartTotal = cartTotal;
     }
     public List<CartItem> getItems(){
-        return items;
+        return cartItems;
     }
     public void setItems(List<CartItem> items){
-        this.items = items;
+        this.cartItems = items;
     }
     public LocalDateTime getUpdatedAt() {
         return updatedAt;

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -12,6 +13,7 @@ import java.util.Set;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private Long id;
 
     @Column(name="price", nullable = false )
@@ -33,13 +35,17 @@ public class Product {
     @JoinColumn(name="shop_id",referencedColumnName = "id",nullable = false)
     private Shop shopId;
 
-    @ManyToMany(mappedBy = "product" )
-    private Set<Category> categories;
+    @ManyToMany(mappedBy = "products")
+    private List<Category> categories;
+
+    @OneToMany(mappedBy = "productId")
+    private List<CartItem> cartItems;
+
 
     @Column(name="quantity")
     private Integer quantity;
 
-    public Product(BigDecimal price , String productName , String productDescription , Shop shopId, Set<Category> categories, Integer quantity) {
+    public Product(BigDecimal price , String productName , String productDescription , Shop shopId, List<Category> categories, Integer quantity) {
         this.price = price;
         this.productName = productName;
         this.productDescription = productDescription;
@@ -48,7 +54,7 @@ public class Product {
         this.quantity = quantity;
         this.categories = categories;
     }
-    public Product() {}
+    protected Product() {}
 
     // getters setters
     public Long getId() {
@@ -91,10 +97,10 @@ public class Product {
     public void setShopId(Shop shopId) {
         this.shopId = shopId;
     }
-    public  Set<Category> getCategories() {
+    public  List<Category> getCategories() {
         return categories;
     }
-    public void setCategories(Set<Category> categories) {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
 }

@@ -5,22 +5,22 @@ import com.example.ecommerceapi.entities.Order;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 // JPA - JakartaEE standard API for object relational mapping
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "`user`")
+public class User implements UserDetails {
     // marks a field as primary key
     @Id
     // for auto increment
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "id")
     private Long id;
 
     @Column(name="user_name",unique = true , nullable = false , length = 32)
@@ -35,44 +35,68 @@ public class User {
     @Column(name="phone_number" , unique = true,nullable=false)
     private String phoneNumber;
 
-    @Column(name="user_adress",unique = false,nullable=false)
-    private String userAddress;
     /* org.hibernate -> fetch
     fetch = fetchType.LAZY  -> biz veritabanından user'ları çektiğimiz zaman sadece userları çekecek bağlı oldugu orderları çekmeyecek
     fetch = FetchType.EAGER -> hem user hem de orderları cekecek .
      CascadeType.ALL bir user silinince bağlı olan tüm order entityleri de silinecek .
     */
-    @OneToMany(mappedBy = "user" , cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @OneToMany(mappedBy = "userId" , cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     @JsonIgnore
     private List<Order> orders = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    // mapped by -> karşı entitydeki yöneten property yani foreign keyi tutan .
+    @OneToMany(mappedBy = "userId", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     @JsonIgnore
     private Set<Adress> adresses = new HashSet<>();
 
     @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     // column olarak eklemek ve foreign key vermek icin
-    @JoinColumn(name = "usercart_id" , referencedColumnName = "id")
+    @JoinColumn(name = "usercart_id" ,referencedColumnName = "id")
      private Cart userCartId;
 
     @Column(name="created_at")
     private LocalDateTime createdAt;
 
+    @Column(name="role")
+    private Roles role;
+
     @Column(name="updated_at" , nullable = true)
     private LocalDateTime updatedAt;
-    public User() {
+
+    protected User() {
 
     }
 
 
-     public User(String userName, String userEmail, String hashedPassword, String phoneNumber,String userAddress) {
+     public User(String userName,
+                 String userEmail,
+                 String hashedPassword,
+                 String phoneNumber
+
+                  ) {
         this.userName = userName;
         this.userEmail = userEmail;
         this.hashedPassword = hashedPassword;
         this.phoneNumber = phoneNumber;
         createdAt =LocalDateTime.now();
-        this.userAddress = userAddress;
+
+
     }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    public String getPassword() {
+        return hashedPassword;
+    }
+    // unique özellik
+    public String getUsername() {
+        return userEmail;
+    }
+
+
+
 
     // getters setters metotlari
     public Long getId() {
@@ -115,7 +139,12 @@ public class User {
         this.orders = orders;
     }
 
-
+    public Roles getRole() {
+        return role;
+    }
+    public void setRole(Roles role) {
+        this.role = role;
+    }
 
 
 

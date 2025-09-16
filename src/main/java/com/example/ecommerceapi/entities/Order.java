@@ -12,15 +12,19 @@ public class Order
 {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name="id")
     private Long id;
 
-    @OneToOne(mappedBy = "orders")
+    @OneToOne
     @JoinColumn(name = "cartId" , referencedColumnName = "id",nullable = false)
     private Cart cartId;
 
+    @ManyToOne
+    @JoinColumn(name="user_id" , referencedColumnName = "id")
+    private User userId;
 
-    @Column(name="order_total")
-    private BigDecimal orderTotal = cartId.getCartTotal();
+    @Column(name="order_total",nullable = true)
+    private BigDecimal orderTotal;
 
     @ManyToOne
     @JoinColumn(name="adress_id", referencedColumnName = "id" , nullable = false)

@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private Long id;
 
     @ManyToOne
@@ -22,9 +23,10 @@ public class CartItem {
     @Column(name="item_total")
     private BigDecimal itemTotal =  BigDecimal.ZERO;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="product_id" , referencedColumnName = "id",nullable = false)
-    private Product productId ;
+    @ManyToOne
+    @JoinColumn(name="product_id" , referencedColumnName = "id")
+    private Product productId;
+
 
     // getters setters
     public Long getId() {
