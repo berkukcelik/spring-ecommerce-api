@@ -40,12 +40,12 @@ public class User implements UserDetails {
     fetch = FetchType.EAGER -> hem user hem de orderları cekecek .
      CascadeType.ALL bir user silinince bağlı olan tüm order entityleri de silinecek .
     */
-    @OneToMany(mappedBy = "userId" , cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @OneToMany(mappedBy = "userId" , cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     @JsonIgnore
     private List<Order> orders = new ArrayList<>();
 
     // mapped by -> karşı entitydeki yöneten property yani foreign keyi tutan .
-    @OneToMany(mappedBy = "userId", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @OneToMany(mappedBy = "userId", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     @JsonIgnore
     private Set<Adress> adresses = new HashSet<>();
 
@@ -151,6 +151,12 @@ public class User implements UserDetails {
     }
     public void setAdresses(Set<Adress> adresses) {
         this.adresses = adresses;
+    }
+    public Cart getCartId(){
+        return userCartId;
+    }
+    public void setCartId(Cart userCartId) {
+        this.userCartId = userCartId;
     }
 
 

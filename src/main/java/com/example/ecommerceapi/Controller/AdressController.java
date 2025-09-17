@@ -36,4 +36,9 @@ public class AdressController {
     public ResponseEntity<List<Adress>> getAllAdress(@AuthenticationPrincipal User user) {
         return new ResponseEntity<>(addressService.getAdressesByUserId(user.getId()), HttpStatus.OK);
     }
+    @PostMapping("/my/{id}")
+    public ResponseEntity<Adress> updateAdress(@PathVariable Long id, @RequestBody Adress adress,
+                                               @AuthenticationPrincipal User user) {
+        return new ResponseEntity<>(addressService.updateAdress(id, adress, user), HttpStatus.OK);
+    }
 }

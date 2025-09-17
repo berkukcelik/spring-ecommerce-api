@@ -22,19 +22,31 @@ public class Cart {
 
     @OneToOne
     @JoinColumn(referencedColumnName = "id" , name = "user_id",nullable = false)
+    @JsonIgnore
     private User userId;
 
     @Column(name="cart_total")
-    private BigDecimal cartTotal = new BigDecimal(0.00);
+    private Double cartTotal ;
+
+    @Column(name="created_at")
+    private LocalDateTime createdAt;
 
     @Column(name="updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToOne(fetch = FetchType.LAZY,mappedBy = "cartId")
+    @OneToOne(mappedBy = "cartId")
+    @JsonIgnore
     private Order order;
 
+
     public Cart() {
+    }
+    public Cart(User userId){
+        this.userId = userId;
         cartItems = new ArrayList<>();
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+        cartTotal = 0.00;
     }
 
     // getters setters metotlar
@@ -51,10 +63,10 @@ public class Cart {
     public void setUserId(User userId) {
         this.userId = userId;
     }
-    public BigDecimal getCartTotal() {
+    public Double getCartTotal() {
         return cartTotal;
     }
-    public void setCartTotal(BigDecimal cartTotal) {
+    public void setCartTotal(Double cartTotal) {
         this.cartTotal = cartTotal;
     }
     public List<CartItem> getItems(){
@@ -69,6 +81,20 @@ public class Cart {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public Order getOrder() {
+        return order;
+    }
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
 
 
 }

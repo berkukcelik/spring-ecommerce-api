@@ -1,9 +1,11 @@
 package com.example.ecommerceapi.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="cartItem")
@@ -14,18 +16,36 @@ public class CartItem {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="cart_id",referencedColumnName ="id",nullable = false)
+    @JoinColumn(name="cart_id",referencedColumnName ="id",nullable = false )
+    @JsonIgnore
     private Cart cartId;
 
     @Column(name="quantity")
-    private int quantity = 0;
+    private int quantity ;
 
     @Column(name="item_total")
-    private BigDecimal itemTotal =  BigDecimal.ZERO;
+    private Double itemTotal;
 
     @ManyToOne
     @JoinColumn(name="product_id" , referencedColumnName = "id")
     private Product productId;
+
+    @Column(name="created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name="updated_at")
+    private LocalDateTime updatedAt;
+
+    public CartItem(Cart cartId, int quantity , Product productId) {
+        this.cartId = cartId;
+        this.quantity = quantity;
+        this.productId = productId;
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+        itemTotal = quantity * productId.getPrice();
+        this.quantity = quantity;
+    }
+    public CartItem() {}
 
 
     // getters setters
@@ -54,13 +74,18 @@ public class CartItem {
         this.productId = productId;
     }
 
-    public void setItemTotal(BigDecimal itemTotal) {
+    public void setItemTotal(Double itemTotal) {
         this.itemTotal = itemTotal;
     }
-    public BigDecimal getItemTotal() {
+    public Double getItemTotal() {
         return itemTotal;
     }
-
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
 
 
 }

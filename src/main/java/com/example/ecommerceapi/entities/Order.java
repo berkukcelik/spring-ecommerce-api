@@ -23,11 +23,11 @@ public class Order
     @JoinColumn(name="user_id" , referencedColumnName = "id")
     private User userId;
 
-    @Column(name="order_total",nullable = true)
-    private BigDecimal orderTotal;
+    @Column(name="order_total")
+    private Double orderTotal; // = carttotal
 
     @ManyToOne
-    @JoinColumn(name="adress_id", referencedColumnName = "id" , nullable = false)
+    @JoinColumn(name="adress_id", referencedColumnName = "id")
     private Adress adressId;
 
     @Column(name="order_date")
@@ -39,7 +39,10 @@ public class Order
     @Column(name="Status")
     private OrderStatus status;
 
-    public Order() { }
+    public Order() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
 
     // getters setters
 
@@ -49,7 +52,7 @@ public class Order
     public OrderStatus getStatus() {
         return status;
     }
-    public BigDecimal getOrderTotal() {
+    public Double getOrderTotal() {
         return orderTotal;
     }
     public LocalDateTime getCreatedAt() {
@@ -67,5 +70,26 @@ public class Order
     public Adress getAdressId() {
         return adressId;
     }
+    public  void setAdressId(Adress adressId) {
+        this.adressId = adressId;
+    }
+    public void setCartId(Cart cartId) {
+        this.cartId = cartId;
+    }
+    public User getUserId() {
+        return userId;
+    }
+    public void setUserId(User userId) {
+        this.userId = userId;
+    }
+    public void setOrderTotal(Double orderTotal) {
+        this.orderTotal = orderTotal;
+
+    }
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+
+    }
+
 
 }

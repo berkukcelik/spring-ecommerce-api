@@ -17,7 +17,7 @@ public class Product {
     private Long id;
 
     @Column(name="price", nullable = false )
-    private BigDecimal price;
+    private Double price;
 
     @Column(name="created_at")
     private LocalDateTime createdAt;
@@ -35,7 +35,7 @@ public class Product {
     @JoinColumn(name="shop_id",referencedColumnName = "id",nullable = false)
     private Shop shopId;
 
-    @ManyToMany(mappedBy = "products")
+    @ManyToMany(mappedBy = "products",fetch = FetchType.EAGER)
     private List<Category> categories;
 
     @OneToMany(mappedBy = "productId")
@@ -45,7 +45,7 @@ public class Product {
     @Column(name="quantity")
     private Integer quantity;
 
-    public Product(BigDecimal price , String productName , String productDescription , Shop shopId, List<Category> categories, Integer quantity) {
+    public Product(Double price , String productName , String productDescription , Shop shopId, List<Category> categories, Integer quantity) {
         this.price = price;
         this.productName = productName;
         this.productDescription = productDescription;
@@ -63,10 +63,10 @@ public class Product {
     public void setId(Long id) {
         this.id = id;
     }
-    public BigDecimal getPrice() {
+    public Double getPrice() {
         return price;
     }
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
     public LocalDateTime getCreatedAt() {
